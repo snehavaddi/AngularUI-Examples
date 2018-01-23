@@ -1,0 +1,70 @@
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.9/angular.min.js"></script>
+
+    <script type="text/javascript">
+        var app = angular.module('MyApp', []);
+        app.controller('MyController', function ($scope) {
+
+            $scope.data = ["john"];
+            $scope.dataArchive = ["john"];
+            $scope.tmp = [];
+            $scope.myStyle = [];
+            $scope.HasChecked = [];
+            var len = $scope.data.length;
+            $scope.len = $scope.data.length;
+            var count = 0;
+            
+            $scope.add = function(){
+                var len = $scope.data.length;
+                $scope.data[len] = $scope.inputText;
+                $scope.dataArchive[len] = $scope.data[len];
+                //alert($scope.dataArchive);
+                $scope.len++;
+            };
+
+            $scope.change = function(x){
+                
+              $scope.tmp = x;
+              if ($scope.HasChecked[x] == true) {
+                   $scope.myStyle[x] = {'text-decoration': 'line-through'};
+                   $scope.len--;
+                   var index = $scope.dataArchive.indexOf(x);
+                   $scope.dataArchive.splice(index,1);
+                } 
+                else {
+                    $scope.len++;
+                    $scope.myStyle[x] = {'text-decoration': 'none'};
+                    
+                } 
+                
+            };
+
+            $scope.archive = function(){
+            
+                var index = $scope.data.indexOf($scope.tmp);
+                $scope.data.splice(index,1);          
+                
+            }
+
+        });
+    </script>
+
+    <div ng-app="MyApp" ng-controller="MyController">  
+            <input type="text" ng-model="inputText">
+            <button ng-click="add(data)">ADD</button> 
+            <p>{{len}}of {{data.length}}[<a href="#" ng-click="archive()">arhive</a>]</p>
+            <ul style="list-style:none">
+               <li ng-repeat="x in data">
+                 <input  type="checkbox" ng-model="HasChecked[x]" ng-change="change(x)" >
+                 <span ng-style="myStyle[x]">{{x}}</span>
+               </li>
+            </ul>    
+ 
+    </div>
+
+</body>
+</html>
